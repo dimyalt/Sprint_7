@@ -14,22 +14,22 @@ public class TestLoginCourierOk {
     @Before
     public void setUp(){
         //Создаем курьера
-        CreateNewCourier courier = new CreateNewCourier(courierLogin, courierPassword, courierFirstname);
-        courier.creatingCourier();
+        CourierClient courier = new CourierClient(courierLogin, courierPassword, courierFirstname);
+        courier.createCourier();
     }
     @Test
     @DisplayName("Логин курьера")
     public void loginCourierOk(){
-        LoginCourier loginCourier = new LoginCourier(courierLogin, courierPassword);
-        String result =  loginCourier.testLoginCourier();
+        CourierClient courierClient = new CourierClient(courierLogin, courierPassword, courierFirstname);
+        String result =  courierClient.getCourierLoginResponseBody();
         String expectedResult = "id"; //Ищем в ответе id
         assertThat(result, containsString(expectedResult));
 
-        id = loginCourier.loginCourier();
+        id = courierClient.getLoginCourierId();
     }
     @After
     public void tearsDown(){
-        DeleteCourier courier = new DeleteCourier(id);
-        courier.deleteCourier();
+        CourierClient courier = new CourierClient(courierLogin, courierPassword, courierFirstname);
+        courier.deleteCourier(id);
     }
 }

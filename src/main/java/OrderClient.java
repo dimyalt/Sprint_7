@@ -1,7 +1,9 @@
 import io.restassured.response.Response;
+import java.util.ArrayList;
+import java.util.List;
 import static io.restassured.RestAssured.given;
 
-public class CreateNewOrder {
+public class OrderClient {
     private final String firstName;
     private final String lastName;
     private final String address;
@@ -11,9 +13,10 @@ public class CreateNewOrder {
     private final String deliveryDate;
     private final String comment;
     private final String color;
+    private final String ORDER_URL = "http://qa-scooter.praktikum-services.ru/api/v1/orders";
 
-    public CreateNewOrder(String firstName, String lastName, String address, int metroStation, String phone,
-                          int rentTime, String deliveryDate, String comment, String color) {
+    public OrderClient(String firstName, String lastName, String address, int metroStation, String phone,
+                       int rentTime, String deliveryDate, String comment, String color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -25,16 +28,14 @@ public class CreateNewOrder {
         this.color = color;
     }
     public String createOrder(){
-        String json = "{\"firstName\": \""+firstName+"\",\"lastName\": \""+lastName+"\",\"address\": \""+address+"\"," +
-                "\"metroStation\": "+metroStation+",\"phone\": \""+phone+"\",\"rentTime\": "+rentTime+"," +
-                "\"deliveryDate\": \""+deliveryDate+"\",\"comment\": \""+comment+"\",\"color\": [\""+color+"\"]}";
+        List<OrderData> orderData = new ArrayList<>();
+        orderData.add(new OrderData(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color));
         Response response =
                 given()
                         .header("Content-type", "application/json")
                         .and()
-                        .body(json)
-                        .post("http://qa-scooter.praktikum-services.ru/api/v1/orders");
-        System.out.println(response.body().asString());
+                        .body(orderData)
+                        .post(ORDER_URL);
         return response.body().asString();
 
     }

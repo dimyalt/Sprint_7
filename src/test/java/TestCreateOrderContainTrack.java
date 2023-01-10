@@ -2,10 +2,8 @@ import io.qameta.allure.junit4.DisplayName;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsString;
-
 
 @RunWith(Parameterized.class)
 public class TestCreateOrderContainTrack {
@@ -43,7 +41,7 @@ public class TestCreateOrderContainTrack {
     @Test
     @DisplayName("Создание заказа с параметром цвета")
     public void testCreateOrder(){
-        CreateNewOrder order = new CreateNewOrder(firstName, lastName, address, metroStation, phone, rentTime,
+        OrderClient order = new OrderClient(firstName, lastName, address, metroStation, phone, rentTime,
                 deliveryDate, comment, color);
         assertThat(order.createOrder(), containsString("track"));
     }

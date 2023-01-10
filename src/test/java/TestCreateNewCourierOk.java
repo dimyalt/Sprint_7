@@ -1,30 +1,27 @@
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
 import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 
 public class TestCreateNewCourierOk {
     private String id;
-
+    private final String newCourierLogin = "Samokatchik3";
+    private final String newCourierPassword = "1234";
+    private final String newCourierFirstname = "saskeshket";
+    private final String expectedResult = "{\"ok\":true}";
     @Test
     @DisplayName("Создание курьера")
     public void createNewCourier(){
-        String newCourierLogin = "Samokatchik3";
-        String newCourierPassword = "1234";
-        String newCourierFirstname = "saskeshket";
-        String expectedResult = "{\"ok\":true}";
-
-        CreateNewCourier newCourier = new CreateNewCourier(newCourierLogin, newCourierPassword, newCourierFirstname);
-        String result = newCourier.creatingCourier();
+        CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+        String result = newCourier.createCourier();
         assertEquals(expectedResult, result);
 
-        LoginCourier loginCourierId = new LoginCourier(newCourierLogin, newCourierPassword);
-        id = loginCourierId.loginCourier();
+        CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+        id = courierClientId.getLoginCourierId();
     }
     @After
     public void tearsDown(){
-        DeleteCourier courier = new DeleteCourier(id);
-        courier.deleteCourier();
+        CourierClient courier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+        courier.deleteCourier(id);
     }
 }

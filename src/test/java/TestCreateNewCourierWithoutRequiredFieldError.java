@@ -5,17 +5,26 @@ import static org.hamcrest.Matchers.containsString;
 
 
 public class TestCreateNewCourierWithoutRequiredFieldError {
-
+    private static String id;
     @Test
     @DisplayName("Создание курьера без обязательного поля")
-    public void createNewCourier(){
+    public void createNewCourierWithoutPassword(){
         String newCourierLogin = "Samokatchik3";
         String newCourierPassword = "";
         String newCourierFirstname = "saskeshket";
         String expectedResult = ":400";
-
-        CreateNewCourier newCourier = new CreateNewCourier(newCourierLogin, newCourierPassword, newCourierFirstname);
-        String result = newCourier.creatingCourier();
+        // Создаем курьера без обязательного поля (пароль)
+        CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+        String result = newCourier.createCourier();
+        // Пытаемся залогиниться созданным курьером
+        CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+        id = courierClientId.getLoginCourierId();
+        // Если ожидаемый результат (ошибка при создании учетной записи без пароля) отличается от фактического
+        if (!result.contains(expectedResult)) {
+            // Удаляем нового курьера из системы
+            CourierClient courier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
+            courier.deleteCourier(id);
+        }
         assertThat(result, containsString(expectedResult));
 
     }
