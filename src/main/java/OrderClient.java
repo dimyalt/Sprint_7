@@ -5,17 +5,19 @@ import java.util.List;
 import static io.restassured.RestAssured.given;
 
 public class OrderClient {
-    private final String firstName;
-    private final String lastName;
-    private final String address;
-    private final int metroStation;
-    private final String phone;
-    private final int rentTime;
-    private final String deliveryDate;
-    private final String comment;
-    private final String color;
+    private String firstName;
+    private String lastName;
+    private String address;
+    private int metroStation;
+    private String phone;
+    private int rentTime;
+    private String deliveryDate;
+    private String comment;
+    private String color;
     private final String ORDER_URL = "http://qa-scooter.praktikum-services.ru/api/v1/orders";
+    public OrderClient() {
 
+    }
     public OrderClient(String firstName, String lastName, String address, int metroStation, String phone,
                        int rentTime, String deliveryDate, String comment, String color) {
         this.firstName = firstName;
@@ -28,6 +30,7 @@ public class OrderClient {
         this.comment = comment;
         this.color = color;
     }
+
     public String createOrder(){
         List<OrderData> orderData = new ArrayList<>();
         orderData.add(new OrderData(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color));
@@ -39,6 +42,13 @@ public class OrderClient {
                         .post(ORDER_URL);
         return response.body().asString();
 
+    }
+    public String getOrderList(){
+        Response response =
+                given()
+                        .get(ORDER_URL);
+                        //.then().assertThat().body("$", hasKey("orders"));
+        return response.body().asString();
     }
 
 }

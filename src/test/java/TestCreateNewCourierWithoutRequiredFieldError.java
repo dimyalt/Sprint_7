@@ -17,16 +17,13 @@ public class TestCreateNewCourierWithoutRequiredFieldError {
         CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
         String result = newCourier.createCourier();
         // Пытаемся залогиниться созданным курьером
-        CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        id = courierClientId.getLoginCourierId();
+        id = newCourier.getLoginCourierId();
         // Если ожидаемый результат (ошибка при создании учетной записи без пароля) отличается от фактического
         if (!result.contains(expectedResult)) {
             // Удаляем нового курьера из системы
-            CourierClient courier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-            courier.deleteCourier(id);
+            newCourier.deleteCourier(id);
         }
         assertThat(result, containsString(expectedResult));
-
     }
 
 }

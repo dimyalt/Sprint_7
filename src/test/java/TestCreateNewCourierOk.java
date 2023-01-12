@@ -9,21 +9,18 @@ public class TestCreateNewCourierOk {
     private final String newCourierPassword = "1234";
     private final String newCourierFirstname = "saskeshket";
     private final String expectedResult = "{\"ok\":true}";
+    private final CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
 
     @Test
     @DisplayName("Создание курьера")
     public void createNewCourier(){
-        CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
         String result = newCourier.createCourier();
-        CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        id = courierClientId.getLoginCourierId();
+        id = newCourier.getLoginCourierId();
         assertEquals(expectedResult, result);
-
 
     }
     @After
     public void tearsDown(){
-        CourierClient courier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        courier.deleteCourier(id);
+        newCourier.deleteCourier(id);
     }
 }

@@ -14,10 +14,11 @@ public class TestCreateDuplicateCourierConflict {
     private static final CourierClient testCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
 
     @BeforeClass
+
     public static void setUp(){
         //Создаем "старого" курьера
         testCourier.createCourier();
-
+        //testCourier.setUpBaseURL();
     }
     @Test
     @DisplayName("Создание дубликата учетной записи курьера")
@@ -26,16 +27,14 @@ public class TestCreateDuplicateCourierConflict {
         String result = testCourier.createCourier();
         String expectedResult = ":409"; //Ищем в ответе код ошибки
         //Перед проверкой, получаем id курьера
-        CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        id = courierClientId.getLoginCourierId();
+        id = testCourier.getLoginCourierId();
         //Проверка
         assertThat(result, containsString(expectedResult));
 
     }
     @AfterClass
     public static void tearsDown(){
-        CourierClient courier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        courier.deleteCourier(id);
+        testCourier.deleteCourier(id);
     }
 
 }

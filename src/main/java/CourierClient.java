@@ -1,4 +1,4 @@
-import data.CourierData;
+import data.CourierData; //Этож название класса с camelCase, а пакет data - строчными буквами
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.*;
 
 public class CourierClient {
     private final String login;
-    private final String password;
+    private String password;
     private final String firstname;
     private final String BASE_URL = "http://qa-scooter.praktikum-services.ru/api/v1";
     private final String LOGIN_URL = "/courier/login";
@@ -35,7 +35,7 @@ public class CourierClient {
     }
 
     public String getLoginCourierId(){
-        setUpBaseURL();
+        //setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -48,7 +48,7 @@ public class CourierClient {
 
     }
     public String getCourierLoginResponseBody(){
-        setUpBaseURL();
+        //setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -59,11 +59,15 @@ public class CourierClient {
 
     }
     public void deleteCourier(String courierId){
-        setUpBaseURL();
+        //setUpBaseURL();
         given()
                 .header("Content-type", "application, json")
                 .when()
                 .delete(DELETE_URL+courierId)
                 .then().statusCode(200);
+    }
+
+    public void setCourierPassword(String password){
+        this.password = password;
     }
 }
