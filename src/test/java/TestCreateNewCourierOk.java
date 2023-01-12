@@ -9,15 +9,17 @@ public class TestCreateNewCourierOk {
     private final String newCourierPassword = "1234";
     private final String newCourierFirstname = "saskeshket";
     private final String expectedResult = "{\"ok\":true}";
+
     @Test
     @DisplayName("Создание курьера")
     public void createNewCourier(){
         CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
         String result = newCourier.createCourier();
-        assertEquals(expectedResult, result);
-
         CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
         id = courierClientId.getLoginCourierId();
+        assertEquals(expectedResult, result);
+
+
     }
     @After
     public void tearsDown(){

@@ -26,9 +26,9 @@ public class TestLoginCourierNegative {
         CourierClient courierClientWrongPass = new CourierClient(courierLogin, incorrectCourierPassword, courierFirstname);
         String result =  courierClientWrongPass.getCourierLoginResponseBody();
         String expectedResult = "404"; //Ищем в ответе код ошибки
-        assertThat(result, containsString(expectedResult));
         CourierClient courierClient = new CourierClient(courierLogin, courierPassword, courierFirstname);
         id = courierClient.getLoginCourierId();
+        assertThat(result, containsString(expectedResult));
     }
 
     @Test
@@ -37,9 +37,9 @@ public class TestLoginCourierNegative {
         CourierClient courierClientWithoutRequiredField = new CourierClient(courierLogin, emptyCourierPassword, courierFirstname);
         String result =  courierClientWithoutRequiredField.getCourierLoginResponseBody();
         String expectedResult = "400"; //Ищем в ответе код ошибки
-        assertThat(result, containsString(expectedResult));
         CourierClient courierClient = new CourierClient(courierLogin, courierPassword, courierFirstname);
         id = courierClient.getLoginCourierId();
+        assertThat(result, containsString(expectedResult));
     }
     @After
     public void tearsDown(){

@@ -11,22 +11,26 @@ public class TestCreateDuplicateCourierConflict {
     private static final String newCourierPassword = "1234";
     private static final String newCourierFirstname = "saskeshket";
     private static String id;
+    private static final CourierClient testCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
 
     @BeforeClass
     public static void setUp(){
         //Создаем "старого" курьера
-        CourierClient oldCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        oldCourier.createCourier();
+        testCourier.createCourier();
+
     }
     @Test
     @DisplayName("Создание дубликата учетной записи курьера")
     public void createDuplicateCourier(){
-        CourierClient newCourier = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
-        String result = newCourier.createCourier();
+        //Создаем "нового" курьера
+        String result = testCourier.createCourier();
         String expectedResult = ":409"; //Ищем в ответе код ошибки
-        assertThat(result, containsString(expectedResult));
+        //Перед проверкой, получаем id курьера
         CourierClient courierClientId = new CourierClient(newCourierLogin, newCourierPassword, newCourierFirstname);
         id = courierClientId.getLoginCourierId();
+        //Проверка
+        assertThat(result, containsString(expectedResult));
+
     }
     @AfterClass
     public static void tearsDown(){

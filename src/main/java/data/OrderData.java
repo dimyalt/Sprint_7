@@ -1,3 +1,5 @@
+package data;
+
 public class OrderData {
     private String firstName;
     private String lastName;

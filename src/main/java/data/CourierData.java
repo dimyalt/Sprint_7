@@ -1,3 +1,5 @@
+package data;
+
 public class CourierData {
     private String login;
     private String password;

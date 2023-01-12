@@ -1,23 +1,29 @@
+import data.CourierData;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 
 public class CourierClient {
     private final String login;
     private final String password;
     private final String firstname;
-    private final String LOGIN_URL = "http://qa-scooter.praktikum-services.ru/api/v1/courier/login";
-    private final String DELETE_URL = "http://qa-scooter.praktikum-services.ru/api/v1/courier/";
-    private final String COURIER_URL = "http://qa-scooter.praktikum-services.ru/api/v1/courier";
+    private final String BASE_URL = "http://qa-scooter.praktikum-services.ru/api/v1";
+    private final String LOGIN_URL = "/courier/login";
+    private final String DELETE_URL = "/courier/";
+    private final String COURIER_URL = "/courier";
 
     public CourierClient(String login, String password, String firstname) {
         this.login = login;
         this.password = password;
         this.firstname = firstname;
     }
-
+    public void setUpBaseURL() {
+        RestAssured.baseURI = BASE_URL;
+    }
     public String createCourier(){
+        setUpBaseURL();
         CourierData courierJson = new CourierData(login, password, firstname);
         Response response =
                 given()
@@ -29,6 +35,7 @@ public class CourierClient {
     }
 
     public String getLoginCourierId(){
+        setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -41,6 +48,7 @@ public class CourierClient {
 
     }
     public String getCourierLoginResponseBody(){
+        setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -51,6 +59,7 @@ public class CourierClient {
 
     }
     public void deleteCourier(String courierId){
+        setUpBaseURL();
         given()
                 .header("Content-type", "application, json")
                 .when()
