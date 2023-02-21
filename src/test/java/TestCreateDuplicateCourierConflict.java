@@ -18,7 +18,6 @@ public class TestCreateDuplicateCourierConflict {
     public static void setUp(){
         //Создаем "старого" курьера
         testCourier.createCourier();
-        //testCourier.setUpBaseURL();
     }
     @Test
     @DisplayName("Создание дубликата учетной записи курьера")

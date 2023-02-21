@@ -47,7 +47,6 @@ public class OrderClient {
         Response response =
                 given()
                         .get(ORDER_URL);
-                        //.then().assertThat().body("$", hasKey("orders"));
         return response.body().asString();
     }
 
