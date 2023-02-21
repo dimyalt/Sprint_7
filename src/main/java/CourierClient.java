@@ -19,6 +19,7 @@ public class CourierClient {
         this.password = password;
         this.firstname = firstname;
     }
+
     public void setUpBaseURL() {
         RestAssured.baseURI = BASE_URL;
     }
@@ -35,7 +36,6 @@ public class CourierClient {
     }
 
     public String getLoginCourierId(){
-        //setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -48,7 +48,6 @@ public class CourierClient {
 
     }
     public String getCourierLoginResponseBody(){
-        //setUpBaseURL();
         CourierData courierJson = new CourierData(login, password);
         Response response =
                 given()
@@ -59,7 +58,6 @@ public class CourierClient {
 
     }
     public void deleteCourier(String courierId){
-        //setUpBaseURL();
         given()
                 .header("Content-type", "application, json")
                 .when()

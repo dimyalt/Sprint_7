@@ -10,26 +10,23 @@ public class TestLoginCourierOk {
     private final String courierPassword = "1234";
     private final String courierFirstname = "saskeshket";
     private String id;
+    CourierClient courier = new CourierClient(courierLogin, courierPassword, courierFirstname);
 
     @Before
     public void setUp(){
         //Создаем курьера
-        CourierClient courier = new CourierClient(courierLogin, courierPassword, courierFirstname);
         courier.createCourier();
     }
     @Test
     @DisplayName("Логин курьера")
     public void loginCourierOk(){
-        CourierClient courierClient = new CourierClient(courierLogin, courierPassword, courierFirstname);
-        String result =  courierClient.getCourierLoginResponseBody();
+        String result =  courier.getCourierLoginResponseBody();
+        id = courier.getLoginCourierId();
         String expectedResult = "id"; //Ищем в ответе id
         assertThat(result, containsString(expectedResult));
-
-        id = courierClient.getLoginCourierId();
     }
     @After
     public void tearsDown(){
-        CourierClient courier = new CourierClient(courierLogin, courierPassword, courierFirstname);
         courier.deleteCourier(id);
     }
 }
